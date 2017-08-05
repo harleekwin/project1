@@ -1,0 +1,5 @@
+<a href="/book">Comic Books</a>
+
+<ul>
+  <li ng-repeat="m in vm.comics">{{m.comicName}} <a href="/edit/{{m._id}}">Edit</a> <a ng-click="vm.deleteComics(m._id)">Delete</a></li>
+</ul>
