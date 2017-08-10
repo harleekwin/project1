@@ -1,6 +1,15 @@
-<h2>Edit</h2>
-
-<input type="text" placeholder="new comic name" ng-model="vm.comic.comicName">
-<input type="number" placeholder="new comic issue" ng-model="vm.comic.comicIssue">
-<button type="checkbox" ng-click="vm.alreadyOwn()">Currently Owns</button>
-<button type="button" ng-click="vm.EditComic()">Edit Comic</button>
+<form ng-submit="controller.save()">
+  <div class="form-group">
+    <label>Comic Name:</label>
+    <input ng-model="controller.comic.comicName" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label>Comic Issue:</label>
+    <input ng-model="controller.comic.comicIssue" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label>Comic Publisher:</label>
+    <input ng-model="controller.comic.comicPublisher" class="form-control" />
+  </div>
+  <button class="btn btn-primary">Edit Comic</button>
+</form>

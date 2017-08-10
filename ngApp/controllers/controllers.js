@@ -30,16 +30,50 @@ var comic;
         }());
         Controllers.RegisterController = RegisterController;
         var ComicController = (function () {
-            function ComicController(comicsService) {
-                this.comicsService = comicsService;
-                this.comics = comicsService.getComics();
+            function ComicController(comicService) {
+                this.comicService = comicService;
+                this.comic = {};
+                this.comics = this.comicService.list();
             }
-            ComicController.prototype.deleteComics = function (id) {
-                this.comicsService.removeComics(id);
+            ComicController.prototype.save = function () {
+                var _this = this;
+                this.comicService.save(this.comic).then(function () {
+                    _this.comics = _this.comicService.list();
+                    _this.comic = {};
+                }).catch(function (err) {
+                    console.error(err);
+                });
+            };
+            ComicController.prototype.remove = function (comicId) {
+                var _this = this;
+                this.comicService.remove(comicId).then(function () {
+                    _this.comics = _this.comicService.list();
+                }).catch(function (err) {
+                    console.error(err);
+                });
             };
             return ComicController;
         }());
         Controllers.ComicController = ComicController;
+        var EditComicController = (function () {
+            function EditComicController(comicService, $state, $stateParams) {
+                this.comicService = comicService;
+                this.$state = $state;
+                this.$stateParams = $stateParams;
+                var comicId = $stateParams['id'];
+                this.comic = this.comicService.get(comicId);
+            }
+            EditComicController.prototype.save = function () {
+                var _this = this;
+                this.comicService.save(this.comic).then(function () {
+                    _this.$state.go('home');
+                }).catch(function (err) {
+                    console.error(err);
+                });
+            };
+            return EditComicController;
+        }());
+        Controllers.EditComicController = EditComicController;
         var AddComicController = (function () {
             function AddComicController(comicService) {
                 this.comicService = comicService;
@@ -50,18 +84,5 @@ var comic;
             return AddComicController;
         }());
         Controllers.AddComicController = AddComicController;
-        var EditComicController = (function () {
-            function EditComicController($stateParams, comicService) {
-                this.$stateParams = $stateParams;
-                this.comicService = comicService;
-                this.id = $stateParams['id'];
-            }
-            EditComicController.prototype.editComic = function () {
-                this.comic._id = this.id;
-                this.comicService.saveComic(this.comic);
-            };
-            return EditComicController;
-        }());
-        Controllers.EditComicController = EditComicController;
     })(Controllers = comic.Controllers || (comic.Controllers = {}));
 })(comic || (comic = {}));

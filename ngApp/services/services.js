@@ -19,17 +19,19 @@ var comic;
         Services.UserService = UserService;
         var ComicService = (function () {
             function ComicService($resource) {
-                this.$resource = $resource;
-                this.ComicResource = $resource('/comics/:id');
+                this.ComicResource = $resource('/api/books/:id');
             }
-            ComicService.prototype.saveComic = function (comic) {
-                this.ComicResource.save(comic);
+            ComicService.prototype.get = function (id) {
+                return this.ComicResource.get({ id: id });
             };
-            ComicService.prototype.getComics = function () {
+            ComicService.prototype.list = function () {
                 return this.ComicResource.query();
             };
-            ComicService.prototype.removeComic = function (id) {
-                this.ComicResource.delete({ id: id });
+            ComicService.prototype.save = function (comic) {
+                return this.ComicResource.save(comic).$promise;
+            };
+            ComicService.prototype.remove = function (comicId) {
+                return this.ComicResource.remove({ id: comicId }).$promise;
             };
             return ComicService;
         }());

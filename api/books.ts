@@ -1,23 +1,73 @@
 import * as express from 'express';
-import * as mongodb from 'mongodb';
-let router = express.Router();
+import Comic from '../models/book';
 
-router.post('/', (req, res) => {
-  let comic = req.body;
-  comic._id = new mongodb.ObjectID(req.body._id);
-  })
+let router = express.Router();
 
 
 router.get('/', (req, res) => {
-  database.db.collection('movies').find().toArray().then((movies) => {
-    res.json(movies);
+  Comic.find().then((comics)=> {
+      res.json(comics);
+  }).catch((err) => {
+      res.status(500);
+      console.error(err);
   })
-})
+});
+
+
+router.get('/:id', (req, res) => {
+  Comic.findById(req.params['id']).then((comic) => {
+    res.json(comic);
+  });
+});
+
+
+router.post('/', (req, res) => {
+console.log('hello');
+  let comic = new Comic();
+  comic.comicName = req.body.comicName;
+  comic.comicIssue = req.body.comicIssue;
+  comic.comicPublisher = req.body.comicPublisher;
+
+
+  comic.save().then((newComic) => {
+    res.json(newComic);
+  }).catch((err) => {
+    res.status(400).json(err);
+  });
+});
+
+
+router.post('/:id', (req, res) => {
+  let comicId = req.params.id;
+
+  Comic.findById(comicId).then((comic) => {
+    comic.comicName = req.body.comicName;
+    comic.comicIssue = req.body.comicIssue;
+    comic.comicPublisher = req.body.comicPublisher;
+
+
+    comic.save().then((updatedComic) => {
+      res.json(updatedComic);
+    }).catch((err) => {
+      res.status(400).json(err);
+    });
+
+  }).catch(() => {
+    res.sendStatus(404);
+  });
+
+});
+
+
 
 router.delete('/:id', (req, res) => {
-  let movieId = new mongodb.ObjectID(req.params['id']);
-  database.db.collection('movies').remove({_id: movieId}).then(() => {
-    res.end();
-  })
-})
+  let comicId = req.params.id;
+  Comic.remove({_id:comicId}).then(() => {
+    res.sendStatus(200);
+  }).catch((err) => {
+    res.status(500);
+    console.log(err);
+  });
+});
+
 export default router;

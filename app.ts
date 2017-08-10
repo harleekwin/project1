@@ -9,6 +9,7 @@ import * as mongoose from 'mongoose';
 import * as passport from 'passport';
 
 import users from './routes/users';
+import books from './api/books';
 require('./models/user');
 require('./config/passport');
 
@@ -34,6 +35,7 @@ app.use(passport.initialize());
 mongoose.connect('mongodb://mwhite:blue2@ds163232.mlab.com:63232/comicbook');
 
 app.use('/userRoutes/api/', users);
+app.use('/api/books', books);
 
 
 // redirect 404 to home for the sake of AngularJS client-side routes
@@ -45,6 +47,12 @@ app.get('/*', function(req, res, next) {
   }
 });
 
+
+const connectionString:string = 'mongodb://mwhite:blue2@ds163232.mlab.com:63232/comicbook';
+mongoose.connect(connectionString).then(() => {
+  // add sample data
+  console.log('database connected');
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

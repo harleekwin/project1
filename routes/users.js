@@ -19,6 +19,7 @@ router.post('/Register', function (req, res, next) {
     });
 });
 router.post('/Login/Local', function (req, res, next) {
+    console.log('hello');
     if (!req.body.username || !req.body.password) {
         res.status(400).json({ message: "Please fill inall fields." });
     }

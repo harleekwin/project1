@@ -7,6 +7,7 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var passport = require("passport");
 var users_1 = require("./routes/users");
+var books_1 = require("./api/books");
 require('./models/user');
 require('./config/passport');
 var app = express();
@@ -23,6 +24,7 @@ app.use('/api', express.static(path.join(__dirname, 'api')));
 app.use(passport.initialize());
 mongoose.connect('mongodb://mwhite:blue2@ds163232.mlab.com:63232/comicbook');
 app.use('/userRoutes/api/', users_1.default);
+app.use('/api/books', books_1.default);
 app.get('/*', function (req, res, next) {
     if (/.js|.html|.css|templates|js|scripts/.test(req.path) || req.xhr) {
         return next({ status: 404, message: 'Not Found' });
@@ -30,6 +32,10 @@ app.get('/*', function (req, res, next) {
     else {
         return res.render('index');
     }
+});
+var connectionString = 'mongodb://mwhite:blue2@ds163232.mlab.com:63232/comicbook';
+mongoose.connect(connectionString).then(function () {
+    console.log('database connected');
 });
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

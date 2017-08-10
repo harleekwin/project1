@@ -36,45 +36,63 @@ namespace comic.Controllers {
     }
 
     export class ComicController {
-      public comics
+        public comics;
+        public comic = {};
 
-      public deleteComics(id) {
-        this.comicsService.removeComics(id);
-      }
-
-      constructor(
-        private comicsService
-      ) {
-      this.comics = comicsService.getComics();
-      }
-    }
-    export class AddComicController {
-          public comic
-
-          public addComic() {
-            this.comicService.saveComic(this.comic);
-          }
-          constructor (
-            private comicService
-          ){
-
-          }
+        public save() {
+          this.comicService.save(this.comic).then(()=> {
+            this.comics = this.comicService.list(); // redisplay list
+            this.comic = {};  // clear form
+          }).catch((err) => {
+            console.error(err);
+          })
         }
-    export class EditComicController {
-      public comic
-      public id
 
-      public editComic(){
-        this.comic._id = this.id;
-        this.comicService.saveComic(this.comic);
-      }
+        public remove(comicId) {
+          this.comicService.remove(comicId).then(() => {
+            this.comics = this.comicService.list(); // redisplay list
+          }).catch((err) => {
+            console.error(err);
+          });
+        }
 
-      constructor(
-        public $stateParams,
-        private comicService
-      ){
-        this.id = $stateParams['id'];
-      }
+        constructor(private comicService:comic.Services.ComicService) {
+          this.comics = this.comicService.list();
+        }
     }
 
+    export class EditComicController {
+        public comic;
+
+        public save() {
+          this.comicService.save(this.comic).then(()=> {
+            this.$state.go('home'); // navigate back to home
+          }).catch((err) => {
+            console.error(err);
+          })
+        }
+
+        constructor(
+          private comicService:comic.Services.ComicService,
+          private $state: ng.ui.IStateService,
+          private $stateParams: ng.ui.IStateParamsService
+        ) {
+          let comicId = $stateParams['id'];
+          this.comic = this.comicService.get(comicId);
+        }
+    }
+
+
+    export class AddComicController {
+      public comic
+
+    public addComic() {
+      this.comicService.saveComic(this.comic);
+    }
+
+    constructor(
+      private comicService
+    ) {
+  }
+}
 }

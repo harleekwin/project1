@@ -1,21 +1,55 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
-var mongodb = require("mongodb");
+var book_1 = require("../models/book");
 var router = express.Router();
-router.post('/', function (req, res) {
-    var comic = req.body;
-    comic._id = new mongodb.ObjectID(req.body._id);
-});
 router.get('/', function (req, res) {
-    database.db.collection('movies').find().toArray().then(function (movies) {
-        res.json(movies);
+    book_1.default.find().then(function (comics) {
+        res.json(comics);
+    }).catch(function (err) {
+        res.status(500);
+        console.error(err);
+    });
+});
+router.get('/:id', function (req, res) {
+    book_1.default.findById(req.params['id']).then(function (comic) {
+        res.json(comic);
+    });
+});
+router.post('/', function (req, res) {
+    console.log('hello');
+    var comic = new book_1.default();
+    comic.comicName = req.body.comicName;
+    comic.comicIssue = req.body.comicIssue;
+    comic.comicPublisher = req.body.comicPublisher;
+    comic.save().then(function (newComic) {
+        res.json(newComic);
+    }).catch(function (err) {
+        res.status(400).json(err);
+    });
+});
+router.post('/:id', function (req, res) {
+    var comicId = req.params.id;
+    book_1.default.findById(comicId).then(function (comic) {
+        comic.comicName = req.body.comicName;
+        comic.comicIssue = req.body.comicIssue;
+        comic.comicPublisher = req.body.comicPublisher;
+        comic.save().then(function (updatedComic) {
+            res.json(updatedComic);
+        }).catch(function (err) {
+            res.status(400).json(err);
+        });
+    }).catch(function () {
+        res.sendStatus(404);
     });
 });
 router.delete('/:id', function (req, res) {
-    var movieId = new mongodb.ObjectID(req.params['id']);
-    database.db.collection('movies').remove({ _id: movieId }).then(function () {
-        res.end();
+    var comicId = req.params.id;
+    book_1.default.remove({ _id: comicId }).then(function () {
+        res.sendStatus(200);
+    }).catch(function (err) {
+        res.status(500);
+        console.log(err);
     });
 });
 exports.default = router;
