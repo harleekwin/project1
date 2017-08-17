@@ -38,7 +38,7 @@ var comic;
             ComicController.prototype.save = function () {
                 var _this = this;
                 this.comicService.save(this.comic).then(function () {
-                    _this.comics = _this.comicService.list();
+                    _this.comic = _this.comicService.list();
                     _this.comic = {};
                 }).catch(function (err) {
                     console.error(err);

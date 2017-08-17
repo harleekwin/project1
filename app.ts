@@ -35,7 +35,7 @@ app.use(passport.initialize());
 mongoose.connect('mongodb://mwhite:blue2@ds163232.mlab.com:63232/comicbook');
 
 app.use('/userRoutes/api/', users);
-app.use('/api/books', books);
+app.use('/api/books/', books);
 
 
 // redirect 404 to home for the sake of AngularJS client-side routes

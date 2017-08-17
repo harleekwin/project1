@@ -22,7 +22,6 @@ router.get('/:id', (req, res) => {
 
 
 router.post('/', (req, res) => {
-console.log('hello');
   let comic = new Comic();
   comic.comicName = req.body.comicName;
   comic.comicIssue = req.body.comicIssue;

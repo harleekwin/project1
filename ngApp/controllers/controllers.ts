@@ -41,7 +41,7 @@ namespace comic.Controllers {
 
         public save() {
           this.comicService.save(this.comic).then(()=> {
-            this.comics = this.comicService.list(); // redisplay list
+            this.comic = this.comicService.list(); // redisplay list
             this.comic = {};  // clear form
           }).catch((err) => {
             console.error(err);
@@ -56,7 +56,7 @@ namespace comic.Controllers {
           });
         }
 
-        constructor(private comicService:comic.Services.ComicService) {
+        constructor(private comicService:comic.Service.ComicService) {
           this.comics = this.comicService.list();
         }
     }
@@ -73,7 +73,7 @@ namespace comic.Controllers {
         }
 
         constructor(
-          private comicService:comic.Services.ComicService,
+          private comicService:comic.Service.ComicService,
           private $state: ng.ui.IStateService,
           private $stateParams: ng.ui.IStateParamsService
         ) {

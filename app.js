@@ -24,7 +24,7 @@ app.use('/api', express.static(path.join(__dirname, 'api')));
 app.use(passport.initialize());
 mongoose.connect('mongodb://mwhite:blue2@ds163232.mlab.com:63232/comicbook');
 app.use('/userRoutes/api/', users_1.default);
-app.use('/api/books', books_1.default);
+app.use('/api/books/', books_1.default);
 app.get('/*', function (req, res, next) {
     if (/.js|.html|.css|templates|js|scripts/.test(req.path) || req.xhr) {
         return next({ status: 404, message: 'Not Found' });

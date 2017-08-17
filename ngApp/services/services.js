@@ -1,7 +1,7 @@
 var comic;
 (function (comic_1) {
-    var Services;
-    (function (Services) {
+    var Service;
+    (function (Service) {
         var UserService = (function () {
             function UserService($resource) {
                 this.$resource = $resource;
@@ -16,7 +16,7 @@ var comic;
             };
             return UserService;
         }());
-        Services.UserService = UserService;
+        Service.UserService = UserService;
         var ComicService = (function () {
             function ComicService($resource) {
                 this.ComicResource = $resource('/api/books/:id');
@@ -35,8 +35,8 @@ var comic;
             };
             return ComicService;
         }());
-        Services.ComicService = ComicService;
+        Service.ComicService = ComicService;
         angular.module('comic').service('userService', UserService);
         angular.module('comic').service('comicService', ComicService);
-    })(Services = comic_1.Services || (comic_1.Services = {}));
+    })(Service = comic_1.Service || (comic_1.Service = {}));
 })(comic || (comic = {}));

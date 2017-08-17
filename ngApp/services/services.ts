@@ -1,4 +1,4 @@
-namespace comic.Services {
+namespace comic.Service {
   export class UserService {
     public LoginResource
     public SignUpResource

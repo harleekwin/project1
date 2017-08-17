@@ -17,7 +17,6 @@ router.get('/:id', function (req, res) {
     });
 });
 router.post('/', function (req, res) {
-    console.log('hello');
     var comic = new book_1.default();
     comic.comicName = req.body.comicName;
     comic.comicIssue = req.body.comicIssue;
