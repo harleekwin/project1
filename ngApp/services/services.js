@@ -20,12 +20,16 @@ var comic;
         var ComicService = (function () {
             function ComicService($resource) {
                 this.ComicResource = $resource('/api/books/:id');
+                this.PublisherResource = $resource('/api/books/publisher/:name');
             }
             ComicService.prototype.get = function (id) {
                 return this.ComicResource.get({ id: id });
             };
             ComicService.prototype.list = function () {
                 return this.ComicResource.query();
+            };
+            ComicService.prototype.getPublisherComics = function (publisher) {
+                return this.PublisherResource.query({ name: publisher });
             };
             ComicService.prototype.save = function (comic) {
                 return this.ComicResource.save(comic).$promise;

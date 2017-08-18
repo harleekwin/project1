@@ -35,6 +35,9 @@ var comic;
                 this.comic = {};
                 this.comics = this.comicService.list();
             }
+            ComicController.prototype.getComics = function () {
+                this.comics = this.comicService.getPublisherComics(this.publisher);
+            };
             ComicController.prototype.save = function () {
                 var _this = this;
                 this.comicService.save(this.comic).then(function () {

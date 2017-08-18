@@ -13,7 +13,11 @@
   </div>
   <button class="btn btn-primary">Create Comic</button>
 </form>
-
+<select ng-model="vm.publisher" ng-change="vm.getComics()">
+  <option value="DC">DC</option>
+  <option value="Marvel">Marvel</option>
+  <option value="Image">Image</option>
+</select>
 <ul>
   <li ng-repeat="comic in vm.comics">
     {{comic.comicName}}, {{comic.comicIssue}} {{comic.comicPublisher}}

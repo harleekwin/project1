@@ -3,6 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var book_1 = require("../models/book");
 var router = express.Router();
+router.get('/publisher/:name', function (req, res) {
+    book_1.default.find({ comicPublisher: req.params["name"] }, function (err, comics) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.json(comics);
+        }
+    });
+});
 router.get('/', function (req, res) {
     book_1.default.find().then(function (comics) {
         res.json(comics);
@@ -17,6 +27,7 @@ router.get('/:id', function (req, res) {
     });
 });
 router.post('/', function (req, res) {
+    console.log(req.body);
     if (req.body._id) {
         var comicId = req.body._id;
         book_1.default.findById(comicId).then(function (comic) {
@@ -40,6 +51,7 @@ router.post('/', function (req, res) {
         comic_1.save().then(function (newComic) {
             res.json(newComic);
         }).catch(function (err) {
+            console.log(err);
             res.status(400).json(err);
         });
     }

@@ -3,6 +3,15 @@ import Comic from '../models/book';
 
 let router = express.Router();
 
+router.get('/publisher/:name', (req, res) => {
+  Comic.find({comicPublisher:req.params["name"]}, (err, comics) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(comics);
+    }
+  })
+})
 
 router.get('/', (req, res) => {
   Comic.find().then((comics)=> {
@@ -22,6 +31,7 @@ router.get('/:id', (req, res) => {
 
 
 router.post('/', (req, res) => {
+  console.log(req.body);
 if(req.body._id){
   let comicId = req.body._id;
 
@@ -50,6 +60,7 @@ else{
   comic.save().then((newComic) => {
     res.json(newComic);
   }).catch((err) => {
+    console.log(err);
     res.status(400).json(err);
   });
 }

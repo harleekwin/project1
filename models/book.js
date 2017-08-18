@@ -10,7 +10,7 @@ var comicSchema = new mongoose.Schema({
     comicIssue: {
         type: String,
         required: true,
-        minlength: 2
+        minlength: 1
     },
     comicPublisher: {
         type: String,

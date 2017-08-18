@@ -38,6 +38,12 @@ namespace comic.Controllers {
     export class ComicController {
         public comics;
         public comic = {};
+        public publisher;
+
+        public getComics() {
+          this.comics = this.comicService.getPublisherComics(this.publisher);
+
+        }
 
         public save() {
           this.comicService.save(this.comic).then(()=> {

@@ -21,6 +21,7 @@ namespace comic.Service {
 
   export class ComicService {
      public ComicResource;
+     public PublisherResource;
 
      public get(id) {
        return this.ComicResource.get({id:id});
@@ -28,6 +29,10 @@ namespace comic.Service {
 
      public list() {
        return this.ComicResource.query();
+     }
+
+     public getPublisherComics(publisher){
+      return this.PublisherResource.query({name:publisher});
      }
 
      public save(comic) {
@@ -40,6 +45,7 @@ namespace comic.Service {
 
      constructor($resource:ng.resource.IResourceService) {
        this.ComicResource = $resource('/api/books/:id');
+       this.PublisherResource = $resource('/api/books/publisher/:name');
      }
  }
 
