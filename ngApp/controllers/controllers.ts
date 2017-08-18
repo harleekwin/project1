@@ -2,22 +2,33 @@ namespace comic.Controllers {
 
     export class LoginController {
         public userInfo
+        public isAdmin
 
-        public login() {
+        public login(){
+          if(this.isAdmin === true) {
+            this.userInfo.role = 'admin';
+            this.createSession();
+          } else {
+            this.userInfo.role = 'guest';
+            this.createSession();
+          }
+        }
+
+        public createSession() {
           this.userService.loginUser(this.userInfo).then((data) => {
             this.$window.localStorage.setItem("token", JSON.stringify(data.token));
-            alert('login successful');
+            this.$state.go('comic');
           })
         }
 
         public constructor(
           private userService,
-          public $window
+          public $window,
+          public $state
         ) {
 
         }
     }
-
 
     export class RegisterController {
         public user
@@ -39,6 +50,35 @@ namespace comic.Controllers {
         public comics;
         public comic = {};
         public publisher;
+        public payload
+
+        public create() {
+          if(this.payload.role === 'admin') {
+            alert('Success!');
+          } else {
+            alert('Denied. admins only.')
+          }
+        }
+
+        public read() {
+          alert('Success!');
+        }
+
+        public update() {
+          if(this.payload.role === 'admin') {
+            alert('Success!');
+          } else {
+            alert('Denied. admins only.')
+          }
+        }
+
+        public delete() {
+          if(this.payload.role === 'admin') {
+            alert('Success!');
+          } else {
+            alert("Denied. admins only.")
+          }
+        }
 
         public getComics() {
           this.comics = this.comicService.getPublisherComics(this.publisher);
@@ -64,9 +104,15 @@ namespace comic.Controllers {
 
         constructor(private comicService:comic.Service.ComicService) {
           this.comics = this.comicService.list();
+
+        let token = window.localStorage['token'];
+
+        if(token) {
+          this.payload = JSON.parse(window.atob(token.split('.')[1]));
+          console.log(this.payload);
         }
     }
-
+}
     export class EditComicController {
         public comic;
         public comicId;

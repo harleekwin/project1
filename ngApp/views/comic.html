@@ -1,3 +1,10 @@
+<div>
+  <button ng-click="vm.create()">CREATE</button>
+  <button ng-click="vm.read()">READ</button>
+  <button ng-click="vm.update()">UPDATE</button>
+  <button ng-click="vm.delete()">DELETE</button>
+</div>
+
 <form ng-submit="vm.save()">
   <div class="form-group">
     <label>Comic Name:</label>
@@ -25,3 +32,7 @@
     <a href="#" ng-click="vm.remove(comic._id)">delete</a>
   </li>
 </ul>
+
+<div style="padding-top: 20px;">
+  <a href="/">Logout</a>
+</div>

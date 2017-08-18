@@ -3,15 +3,26 @@ var comic;
     var Controllers;
     (function (Controllers) {
         var LoginController = (function () {
-            function LoginController(userService, $window) {
+            function LoginController(userService, $window, $state) {
                 this.userService = userService;
                 this.$window = $window;
+                this.$state = $state;
             }
             LoginController.prototype.login = function () {
+                if (this.isAdmin === true) {
+                    this.userInfo.role = 'admin';
+                    this.createSession();
+                }
+                else {
+                    this.userInfo.role = 'guest';
+                    this.createSession();
+                }
+            };
+            LoginController.prototype.createSession = function () {
                 var _this = this;
                 this.userService.loginUser(this.userInfo).then(function (data) {
                     _this.$window.localStorage.setItem("token", JSON.stringify(data.token));
-                    alert('login successful');
+                    _this.$state.go('comic');
                 });
             };
             return LoginController;
@@ -34,7 +45,39 @@ var comic;
                 this.comicService = comicService;
                 this.comic = {};
                 this.comics = this.comicService.list();
+                var token = window.localStorage['token'];
+                if (token) {
+                    this.payload = JSON.parse(window.atob(token.split('.')[1]));
+                    console.log(this.payload);
+                }
             }
+            ComicController.prototype.create = function () {
+                if (this.payload.role === 'admin') {
+                    alert('Success!');
+                }
+                else {
+                    alert('Denied. admins only.');
+                }
+            };
+            ComicController.prototype.read = function () {
+                alert('Success!');
+            };
+            ComicController.prototype.update = function () {
+                if (this.payload.role === 'admin') {
+                    alert('Success!');
+                }
+                else {
+                    alert('Denied. admins only.');
+                }
+            };
+            ComicController.prototype.delete = function () {
+                if (this.payload.role === 'admin') {
+                    alert('Success!');
+                }
+                else {
+                    alert("Denied. admins only.");
+                }
+            };
             ComicController.prototype.getComics = function () {
                 this.comics = this.comicService.getPublisherComics(this.publisher);
             };

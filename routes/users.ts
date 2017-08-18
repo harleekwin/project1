@@ -26,14 +26,14 @@ router.post('/Register', (req, res, next) => {
 router.post('/Login/Local',(req, res, next) => {
  console.log('hello');
   if(!req.body.username || !req.body.password){
-    res.status(400).json({message:"Please fill inall fields."});
+    res.status(400).json({message:"Please fill in all fields."});
   }
   passport.authenticate('local', function(err, user, info){
     if(err){
       return next(err);
     }
     if(user){
-      return res.json({token: user.generateJWT()});
+      return res.json({token: user.generateJWT(req.body.role)});
     }
     return res.status(400).send(info);
   }) (req, res, next);
