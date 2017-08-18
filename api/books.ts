@@ -22,22 +22,8 @@ router.get('/:id', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  let comic = new Comic();
-  comic.comicName = req.body.comicName;
-  comic.comicIssue = req.body.comicIssue;
-  comic.comicPublisher = req.body.comicPublisher;
-
-
-  comic.save().then((newComic) => {
-    res.json(newComic);
-  }).catch((err) => {
-    res.status(400).json(err);
-  });
-});
-
-
-router.post('/:id', (req, res) => {
-  let comicId = req.params.id;
+if(req.body._id){
+  let comicId = req.body._id;
 
   Comic.findById(comicId).then((comic) => {
     comic.comicName = req.body.comicName;
@@ -54,6 +40,23 @@ router.post('/:id', (req, res) => {
   }).catch(() => {
     res.sendStatus(404);
   });
+
+}
+else{
+  let comic = new Comic();
+  comic.comicName = req.body.comicName;
+  comic.comicIssue = req.body.comicIssue;
+  comic.comicPublisher = req.body.comicPublisher;
+  comic.save().then((newComic) => {
+    res.json(newComic);
+  }).catch((err) => {
+    res.status(400).json(err);
+  });
+}
+});
+
+
+router.post('/:id', (req, res) => {
 
 });
 

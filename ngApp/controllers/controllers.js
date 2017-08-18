@@ -60,11 +60,12 @@ var comic;
                 this.comicService = comicService;
                 this.$state = $state;
                 this.$stateParams = $stateParams;
-                var comicId = $stateParams['id'];
-                this.comic = this.comicService.get(comicId);
+                this.comicId = $stateParams['id'];
+                this.comic = this.comicService.get(this.comicId);
             }
             EditComicController.prototype.save = function () {
                 var _this = this;
+                this.comic._id = this.comicId;
                 this.comicService.save(this.comic).then(function () {
                     _this.$state.go('home');
                 }).catch(function (err) {

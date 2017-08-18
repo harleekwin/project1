@@ -8,12 +8,11 @@ var comicSchema = new mongoose.Schema({
         minlength: 3
     },
     comicIssue: {
-        type: Number,
+        type: String,
         required: true,
         minlength: 2
     },
     comicPublisher: {
-        enum: ['Marvel', 'DC', 'Image'],
         type: String,
         required: true
     }

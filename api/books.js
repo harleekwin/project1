@@ -17,30 +17,34 @@ router.get('/:id', function (req, res) {
     });
 });
 router.post('/', function (req, res) {
-    var comic = new book_1.default();
-    comic.comicName = req.body.comicName;
-    comic.comicIssue = req.body.comicIssue;
-    comic.comicPublisher = req.body.comicPublisher;
-    comic.save().then(function (newComic) {
-        res.json(newComic);
-    }).catch(function (err) {
-        res.status(400).json(err);
-    });
-});
-router.post('/:id', function (req, res) {
-    var comicId = req.params.id;
-    book_1.default.findById(comicId).then(function (comic) {
-        comic.comicName = req.body.comicName;
-        comic.comicIssue = req.body.comicIssue;
-        comic.comicPublisher = req.body.comicPublisher;
-        comic.save().then(function (updatedComic) {
-            res.json(updatedComic);
+    if (req.body._id) {
+        var comicId = req.body._id;
+        book_1.default.findById(comicId).then(function (comic) {
+            comic.comicName = req.body.comicName;
+            comic.comicIssue = req.body.comicIssue;
+            comic.comicPublisher = req.body.comicPublisher;
+            comic.save().then(function (updatedComic) {
+                res.json(updatedComic);
+            }).catch(function (err) {
+                res.status(400).json(err);
+            });
+        }).catch(function () {
+            res.sendStatus(404);
+        });
+    }
+    else {
+        var comic_1 = new book_1.default();
+        comic_1.comicName = req.body.comicName;
+        comic_1.comicIssue = req.body.comicIssue;
+        comic_1.comicPublisher = req.body.comicPublisher;
+        comic_1.save().then(function (newComic) {
+            res.json(newComic);
         }).catch(function (err) {
             res.status(400).json(err);
         });
-    }).catch(function () {
-        res.sendStatus(404);
-    });
+    }
+});
+router.post('/:id', function (req, res) {
 });
 router.delete('/:id', function (req, res) {
     var comicId = req.params.id;

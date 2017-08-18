@@ -63,8 +63,10 @@ namespace comic.Controllers {
 
     export class EditComicController {
         public comic;
+        public comicId;
 
         public save() {
+          this.comic._id = this.comicId;
           this.comicService.save(this.comic).then(()=> {
             this.$state.go('home'); // navigate back to home
           }).catch((err) => {
@@ -77,8 +79,8 @@ namespace comic.Controllers {
           private $state: ng.ui.IStateService,
           private $stateParams: ng.ui.IStateParamsService
         ) {
-          let comicId = $stateParams['id'];
-          this.comic = this.comicService.get(comicId);
+          this.comicId = $stateParams['id'];
+          this.comic = this.comicService.get(this.comicId);
         }
     }
 

@@ -1,23 +1,23 @@
-<form ng-submit="controller.save()">
+<form ng-submit="vm.save()">
   <div class="form-group">
     <label>Comic Name:</label>
-    <input ng-model="controller.comic.comicName" class="form-control" />
+    <input ng-model="vm.comic.comicName" class="form-control" />
   </div>
   <div class="form-group">
     <label>Comic Issue:</label>
-    <input ng-model="controller.comic.comicIssue" class="form-control" />
+    <input ng-model="vm.comic.comicIssue" class="form-control" />
   </div>
   <div class="form-group">
     <label>Comic Publisher:</label>
-    <input ng-model="controller.comic.comicPublisher" class="form-control" />
+    <input ng-model="vm.comic.comicPublisher" class="form-control" />
   </div>
   <button class="btn btn-primary">Create Comic</button>
 </form>
 
 <ul>
-  <li ng-repeat="comic in controller.comics">
+  <li ng-repeat="comic in vm.comics">
     {{comic.comicName}}, {{comic.comicIssue}} {{comic.comicPublisher}}
     <a href="/edit/{{comic._id}}">edit</a>
-    <a href="#" ng-click="controller.remove(comic._id)">delete</a>
+    <a href="#" ng-click="vm.remove(comic._id)">delete</a>
   </li>
 </ul>
